@@ -1,5 +1,5 @@
-from fastapi import APIRouter, status, Depends
-from schemas.index import TokenData, MVPIdea
+from fastapi import APIRouter, status, Depends, Request, Header
+from schemas.index import TokenData, MVPIdea, EmailRate
 from sqlalchemy.orm import Session
 from config import db
 from repository import idea
@@ -9,7 +9,8 @@ from utils.open_ai_chat import open_ai_obj
 import json
 from fastapi.responses import JSONResponse
 from typing import List
-
+from typing import Union
+from typing_extensions import Annotated
 
 router = APIRouter(
     prefix='/idea',
@@ -100,4 +101,8 @@ def get_all_ideas(get_current_user: TokenData = Depends(get_current_user), db: S
 def send_email_feedback(email_id:str, idea_id: int, get_current_user: TokenData = Depends(get_current_user), db: Session = Depends(get_db)):    
     return idea.send_email(email= email_id, idea_id= idea_id, db= db)
 
+
+@router.post('/recieve-feedback-from-email')
+def receive_feedback_from_email(request: EmailRate, review_token: Annotated[Union[str, None], Header()] = None, db: Session = Depends(get_db)):    
+    return idea.add_feedback(token= review_token, rating= request.rating, feedback= request.feedback, db= db)
 
