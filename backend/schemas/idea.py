@@ -10,3 +10,6 @@ class MVPIdea(BaseModel):
         title="Please enter valid idea title",
         min_length=5,
     )
+
+    class Config:
+        orm_mode = True
