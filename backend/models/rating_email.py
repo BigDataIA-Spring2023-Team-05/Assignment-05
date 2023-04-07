@@ -17,8 +17,8 @@ class EmailRatingModel(Base):
     emailRating = relationship('IdeasModel', back_populates="emails")
 
 
-    # def to_json_for_all_user(self):
-    #     return {
-    #         "id": str(self.id),
-    #         "username": str(self.username)
-    #     }
+    def to_json(self):
+        return {
+            "rating": str(self.rating),
+            "feedback": str(self.feedback)
+        }

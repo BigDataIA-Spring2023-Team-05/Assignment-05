@@ -120,3 +120,27 @@ def add_feedback(token, rating: int, feedback: str, db: Session):
                 status_code= status.HTTP_401_UNAUTHORIZED,
                 content= FailedResponse(message= f"Unauthorized user with {e.with_traceback}").to_json()
             )
+    
+def summarized_feedback(user_id, idea_title: int, db: Session):
+
+    idea_val = db.query(IdeasModel).filter(and_(IdeasModel.idea_title == idea_title, IdeasModel.user_id == user_id)).first()
+    idea_id = idea_val.id
+    idea_rating = db.query(EmailRatingModel).filter(and_(EmailRatingModel.idea_id == idea_id, EmailRatingModel.rating != None)).all()
+
+    rating_count = {
+        '1': 0, '2':0, '3':0, '4':0, '5':0
+    }
+    
+
+    for emailRating in idea_rating:
+        rating_count[str(emailRating.rating)] = rating_count[str(emailRating.rating)] + 1
+
+    avg_rating = 1*(rating_count[str(1)])+2*(rating_count[str(2)])+3*(rating_count[str(3)])+4*(rating_count[str(4)])+5*(rating_count[str(5)])/len(idea_rating)
+    
+    return JSONResponse(
+        status_code= status.HTTP_200_OK,
+        content={
+            'avg_rating': avg_rating,
+            'feedback_summary': "here is feedback summary"
+        }
+    )
