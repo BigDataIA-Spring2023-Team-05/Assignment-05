@@ -32,8 +32,6 @@ services:
     depends_on:
       dbsql:
         condition: service_healthy
-      redis-server:
-        condition: service_healthy
 
   # frontend:
   #   build: ./frontend

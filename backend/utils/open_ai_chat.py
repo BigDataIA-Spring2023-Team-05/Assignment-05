@@ -47,6 +47,27 @@ class OpenAIChat:
         else:
             return splitted_result[0]
         
+    def generate_feature_list_for_product_idea(self, product_idea: str) -> str:
+        completion = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo", 
+                messages = [
+                    {'role': 'user', 'content': f'create numbered feature list for the product idea \'{product_idea}\' with every list item in next line'}
+                ],
+                temperature = 0.70,
+            )
+
+
+
+        result = completion.choices[0].message.content
+        print(result)
+
+        splitted_result = result.split('\n\n')
+
+        print(splitted_result)
+        if len(splitted_result) > 1:
+            return splitted_result[1]
+        else:
+            return splitted_result[0]
 
 # %%
 open_ai_obj = OpenAIChat()
