@@ -51,7 +51,7 @@ class OpenAIChat:
         completion = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo", 
                 messages = [
-                    {'role': 'user', 'content': f'create numbered feature list for the product idea \'{product_idea}\' with every list item in next line'}
+                    {'role': 'user', 'content': f'create numbered upto 10 feature list for the product idea \'{product_idea}\' with every list item in next line'}
                 ],
                 temperature = 0.70,
             )
@@ -74,7 +74,7 @@ class OpenAIChat:
         completion = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo", 
                 messages = [
-                    {'role': 'user', 'content': f'create a numbered to-do list for product feature \'{product_feature}\'?'}
+                    {'role': 'user', 'content': f'create upto 10 numbered to-do list for product feature \'{product_feature}\'?'}
                 ],
                 temperature = 0.70,
             )
