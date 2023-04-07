@@ -137,7 +137,7 @@ open_ai_obj = OpenAIChat()
 
 
 # %%
-open_ai_obj.generate_html_code_for_product_idea('sql query generator')
+# open_ai_obj.generate_html_code_for_product_idea('sql query generator')
 # print(openaiobj.generate_product_idea_for_user_segment('data engineers'))
 
 
