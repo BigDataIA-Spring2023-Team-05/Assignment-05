@@ -30,7 +30,7 @@ if 'feature_list' not in st.session_state:
 if 'html_code' not in st.session_state:
     st.session_state['html_code'] = ''
 
-url = 'http://localhost:8000/idea/get-all-user-ideas'
+url = 'http://backend:8000/idea/get-all-user-ideas'
 token = st.session_state['authentication_status']
 headers = {'Authorization': f'Bearer {token}'}
 result_ideas = requests.post(url, headers= headers )
@@ -86,7 +86,7 @@ def prototype():
             # agree_to_terms = st.checkbox("I agree to the terms and conditions")
             submitted = st.form_submit_button("Submit")
             if submitted:
-                url = 'http://localhost:8000/idea/send-email-for-feedback'
+                url = 'http://backend:8000/idea/send-email-for-feedback'
                 headers = {'Authorization': f'Bearer {token}'}
                 myobj = {'email_id' : email, 'mission_statement' : mission , 'idea_title' : user_idea,'html_code':html_code }
                 result = requests.post(url, json = myobj, headers = headers)

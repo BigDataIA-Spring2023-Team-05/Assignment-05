@@ -32,7 +32,7 @@ def insights():
         token = st.session_state["authentication_status"]
         headers = {'Authorization': f'Bearer {token}'}
         payload_idea = {'idea':str(user_idea)}
-        output = requests.get("http://localhost:8000/idea/get-insights-of-idea", params = payload_idea,headers=headers)
+        output = requests.get("http://backend:8000/idea/get-insights-of-idea", params = payload_idea,headers=headers)
         if output.status_code == 200:
             result = output.json()
             rating = result['average_rating']  

@@ -35,7 +35,7 @@ def ideation_page():
         token = st.session_state["authentication_status"]
         headers = {'Authorization': f'Bearer {token}'}
         payload_idea = {'idea':str(idea)}
-        output = requests.get("http://localhost:8000/idea/get-user-segments-for-product-idea", params = payload_idea,headers=headers)
+        output = requests.get("http://backend:8000/idea/get-user-segments-for-product-idea", params = payload_idea,headers=headers)
         
         if output.status_code == 200:
             result_idea = output.json()
@@ -59,7 +59,7 @@ def ideation_page():
         token = st.session_state["authentication_status"]
         headers = {'Authorization': f'Bearer {token}'}
         payload_user = {'idea':str(user_segment)}
-        output = requests.get("http://localhost:8000/idea/get-product-ideas-for-user-segment", params = payload_user,headers=headers)
+        output = requests.get("http://backend:8000/idea/get-product-ideas-for-user-segment", params = payload_user,headers=headers)
         
         if output.status_code == 200:
             result_idea = output.json()
@@ -95,7 +95,7 @@ def ideation_page():
 
         params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
 
-        output = requests.get("http://localhost:8000/idea/get-features-list-for-product-ideas", params = params, headers=headers)
+        output = requests.get("http://backend:8000/idea/get-features-list-for-product-ideas", params = params, headers=headers)
         if output.status_code == 200:
                
                 result_feature = output.json()
