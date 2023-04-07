@@ -16,24 +16,28 @@ class Email:
         self.CHARSET = "UTF-8"
 
 
-    def send_html_email(self, email:str, token_link: str):
+    def send_html_email(self, email:str, token_link: str, html_code:str, feature_list:str, mission_statement: str):
         HTML_EMAIL_CONTENT = f"""
-            <html>
-                <head></head>
-                <h1 style='text-align:center'>Password reset</h1>
-                <p>Need to reset your password?</p>
-                </br>
-                <p>Use your secret code!</p>
-                </br></br></br>
-                </br></br></br>
-                <p>Enter the secret code above. It will expire in 5 minutes.</p>
-                </br></br>
-                <p>If you did not forget your password, you can ignore this email.</p>
-                <a href="http://localhost:8501/register?user_token={token_link}">Click here</a>
-                <br/><br/>
-                copy paste this:
-                http://localhost:8501/register?user_token={token_link}
-                </body>
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <title>Product Idea</title>
+            </head>
+            <body>
+                <h1>Hey, I have brainstormed some ideas!</h1>
+                <p>I think <em>product_idea</em> is a good fit for our team, check out details below:</p>
+                <h2>Mission Statement:</h2>
+                <p><em>{mission_statement}</em></p>
+                <h2>Here are the few prototype features that might be available:</h2>
+                <br/>
+                {feature_list}
+                <br/>
+                <br/>
+                <p>Prototype link: <a href="<HTML file>">HTML file</a></p>
+                <p>Please give your feedback, I would love to hear back from you: <a href="{token_link}">{token_link}</a></p>
+                <p>Thanks.</p>
+            </body>
             </html>
         """
 

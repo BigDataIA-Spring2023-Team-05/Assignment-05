@@ -98,8 +98,8 @@ def get_all_ideas(get_current_user: TokenData = Depends(get_current_user), db: S
          
 
 @router.post('/send-email-for-feedback')
-def send_email_feedback(email_id:str, idea_title: str, get_current_user: TokenData = Depends(get_current_user), db: Session = Depends(get_db)):    
-    return idea.send_email(email= email_id, idea_title= idea_title, user_id= get_current_user.id, db= db)
+def send_email_feedback(mission_statement:str, html_code:str, email_id:str, idea_title: str, get_current_user: TokenData = Depends(get_current_user), db: Session = Depends(get_db)):    
+    return idea.send_email(mission_statement=mission_statement, html_code=html_code, email= email_id, idea_title= idea_title, user_id= get_current_user.id, db= db)
 
 
 @router.post('/recieve-feedback-from-email')
