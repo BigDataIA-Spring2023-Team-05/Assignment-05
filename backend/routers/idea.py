@@ -7,6 +7,9 @@ from fastapi.security import OAuth2PasswordRequestForm
 from middlewares.oauth2 import get_current_user
 from utils.open_ai_chat import open_ai_obj
 import json
+from fastapi.responses import JSONResponse
+from typing import List
+
 
 router = APIRouter(
     prefix='/idea',
@@ -76,3 +79,23 @@ def approve_mvp_idea(request: MVPIdea, get_current_user: TokenData = Depends(get
     return idea.create(user_id= get_current_user.id, title = request.idea_title, features = request.features, db=db)
 
 
+
+@router.post('/get-all-user-ideas', status_code= status.HTTP_200_OK, response_model= List[MVPIdea])
+def get_all_ideas(get_current_user: TokenData = Depends(get_current_user), db: Session = Depends(get_db)):
+    ideas = idea.get_all_ideas(user_id= get_current_user.id, db=db)
+    
+    if len(ideas) == 0:
+        return JSONResponse(
+            status_code=status.HTTP_404_NOT_FOUND,
+            content={
+                'success': False, 
+                "message": "user do not have any idea"
+            }
+        )
+
+    return ideas
+         
+
+@router.post('/send-email-for-feedback')
+def send_email_feedback(email_id:str, idea_id: int, get_current_user: TokenData = Depends(get_current_user), db: Session = Depends(get_db)):    
+    return idea.send_email(email= email_id, idea_id= idea_id, db= db)

@@ -32,15 +32,28 @@ def verify_token(token:str, credentials_exception):
     except (JWTError):
         raise credentials_exception
     
-def verify_token_v2(token:str):
+def verify_token_for_email(token:str):
     try:
-        payload = jwt.decode(token,  os.environ.get('SECRET_KEY'), algorithms=os.environ.get('ALGORITHM'))
+        payload = jwt.decode(token, os.environ.get('SECRET_KEY'), algorithms=os.environ.get('ALGORITHM'))
         email: str = payload.get("email")        
+        idea_id: str = payload.get("idea_id")        
 
-        
-        token_scopes = payload.get("scopes", [])
-        token_data = TokenData(id = payload.get("id"), email= email)
+        token_data = {
+            "email": email,
+            "idea_id": idea_id,
+            }
         return token_data
     except Exception as e:
         print(e)
         return None
+    
+def generate_email_token(email_id:str, idea_id:int) -> str:
+    expire = datetime.utcnow() + timedelta(days=30)
+    payload = {
+        "email": email_id,
+        "idea_id": idea_id,
+        "exp": expire
+    }
+
+    encoded_jwt = jwt.encode(payload, os.environ.get('SECRET_KEY'), algorithm = os.environ.get('ALGORITHM'))
+    return encoded_jwt
