@@ -56,7 +56,7 @@ def send_email(mission_statement:str, html_code:str, email: str, idea_title:str,
 
         token_link = generate_email_token(email_id= email, idea_id= idea_id)
         
-        emailObj.send_html_email(email= email, token_link=f"http://localhost:8501/rating/{token_link}", mission_statement= mission_statement, feature_list= str(idea_val.features), html_code="")
+        emailObj.send_html_email(idea_title=idea_val.idea_title, email= email, token_link=f"http://ec2-3-84-192-29.compute-1.amazonaws.com/rating/{token_link}", mission_statement= mission_statement, feature_list= str(idea_val.features), html_code=html_code)
 
         return SuccessResponse(message= f"User's email sent successfully!")
     

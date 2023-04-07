@@ -31,7 +31,7 @@ def feature_page():
         #      token = st.session_state["authentication_status"]
         #      headers = {'Authorization': f'Bearer {token}'}
         #      payload_idea = {'idea':str(fav_idea)}
-        #      output = requests.get("http://localhost:8000/idea/get-features-list-for-product-ideas", params = payload_idea,headers=headers)
+        #      output = requests.get("http://backend:8000/idea/get-features-list-for-product-ideas", params = payload_idea,headers=headers)
         #      if output.status_code == 200:
         #             result_feature = output.json()
         #             st.session_state['feature_list']  = result_feature['features_list']
@@ -55,7 +55,7 @@ def feature_page():
 
         # params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
 
-        # output = requests.get("http://localhost:8000/idea/get-features-list-for-product-ideas", params = params, headers=headers)
+        # output = requests.get("http://backend:8000/idea/get-features-list-for-product-ideas", params = params, headers=headers)
         # if output.status_code == 200:
         #         result_feature = output.json()
         #         st.session_state['feature_list']  = result_feature['features_list']
@@ -91,7 +91,7 @@ def feature_page():
 
             params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
 
-            output = requests.get("http://localhost:8000/idea/get-to-do-list-for-product-feature", params = params, headers=headers)
+            output = requests.get("http://backend:8000/idea/get-to-do-list-for-product-feature", params = params, headers=headers)
             if output.status_code == 200:
                     result_todo = output.json()
                     todo_list  = result_todo['features_list']
@@ -109,7 +109,7 @@ def feature_page():
             mvp_bt = st.button('Create your MVP')
             if mvp_bt:
                 st.session_state['mvp_status'] = True
-                url = 'http://localhost:8000/idea/approve-mvp'
+                url = 'http://backend:8000/idea/approve-mvp'
                 headers = {'Authorization': f'Bearer {token}'}
                 fav_idea:str = str(st.session_state['fav_idea'])
                 features = '\n'.join(st.session_state['feature_list'])

@@ -30,7 +30,7 @@ if 'feature_list' not in st.session_state:
 if 'html_code' not in st.session_state:
     st.session_state['html_code'] = ''
 
-url = 'http://localhost:8000/idea/get-all-user-ideas'
+url = 'http://backend:8000/idea/get-all-user-ideas'
 token = st.session_state['authentication_status']
 headers = {'Authorization': f'Bearer {token}'}
 result_ideas = requests.post(url, headers= headers )
@@ -96,6 +96,7 @@ def prototype():
                 switch_page('Insights')
             else:
                 st.warning('Email could not be sent , please check details')
+                
 # Open a new .html file in write mode
     #     with open("my_html_file.html", "w") as f:
     # # Write the HTML code to the file

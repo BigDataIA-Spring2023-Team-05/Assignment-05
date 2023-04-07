@@ -2,3 +2,5 @@ streamlit
 plotly
 streamlit_authenticator
 streamlit_extras
+openai
+python-dotenv

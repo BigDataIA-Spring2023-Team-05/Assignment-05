@@ -1,6 +1,10 @@
 import boto3
 import os
 from dotenv import load_dotenv
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.application import MIMEApplication
+from botocore.exceptions import ClientError
 
 load_dotenv()
 
@@ -16,7 +20,18 @@ class Email:
         self.CHARSET = "UTF-8"
 
 
-    def send_html_email(self, email:str, token_link: str, html_code:str, feature_list:str, mission_statement: str):
+    def send_html_email(self, email:str, idea_title:str, token_link: str, html_code:str, feature_list:str, mission_statement: str):
+        # f = open(f"{idea_title}.html", "w")
+        # f.write(html_code)
+        # f.close()
+
+        # try:
+        #     with open(file_path, "rb") as f:
+        #         file_data = f.read()
+        # except:
+        #     return
+
+
         HTML_EMAIL_CONTENT = f"""
             <!DOCTYPE html>
             <html lang="en">
@@ -42,27 +57,62 @@ class Email:
         """
 
 
-        response = self.client.send_email(
-            Destination={
-                "ToAddresses": [
-                    f"{email}",
-                ],
-            },
-            Message={
-                "Body": {
-                    "Html": {
-                        "Charset": self.CHARSET,
-                        "Data": HTML_EMAIL_CONTENT,
-                    }
-                },
-                "Subject": {
-                    "Charset": self.CHARSET,
-                    "Data": "Team 5 Assignemnt 5",
-                },
-            },
-            Source="jain.rishabh2@northeastern.edu",
-        )
+        # response = self.client.send_email(
+        #     Destination={
+        #         "ToAddresses": [
+        #             f"{email}",
+        #         ],
+        #     },
+        #     Message={
+        #         "Body": {
+        #             "Html": {
+        #                 "Charset": self.CHARSET,
+        #                 "Data": HTML_EMAIL_CONTENT,
+        #             }
+        #         },
+        #         "Subject": {
+        #             "Charset": self.CHARSET,
+        #             "Data": f"Check new product idea '{idea_title}'",
+        #         },
+        #     },
+        #     Source="jain.rishabh2@northeastern.edu",
+        #     Attachments=[
+        #             {
+        #                 "FileName": f"{idea_title}.html",
+        #                 "Data": html_code,
+        #                 "ContentType": "text/html",
+        #             },
+        #         ],
+        # )
 
-        print(response)
+        # print(response)
+
+        try:
+            msg = MIMEMultipart()
+            msg["Subject"] = f"Check new product idea '{idea_title}'"
+            msg["From"] = "jain.rishabh2@northeastern.edu"
+            msg["To"] = email
+            msg.attach(MIMEText(HTML_EMAIL_CONTENT, "html"))
+
+            # with open(f"{idea_title}.html", "w") as f:
+            #     f.write(html_code)
+
+            # Get the current working directory
+            attach = MIMEApplication(html_code, _subtype="html  ")
+            attach.add_header(
+                "Content-Disposition",
+                "attachment",
+                filename=f"{idea_title}.html"
+            )
+            msg.attach(attach)
+
+            response = self.client.send_raw_email(
+                Source=msg["From"],
+                Destinations=[msg["To"]],
+                RawMessage={"Data": msg.as_string()},
+            )
+            print(f"Email sent! Message ID: {response['MessageId']}")
+        except ClientError as e:
+            print(f"Error sending email: {e.response['Error']['Message']}")
 
 emailObj = Email()

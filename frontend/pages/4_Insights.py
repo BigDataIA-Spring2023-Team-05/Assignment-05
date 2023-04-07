@@ -37,6 +37,7 @@ def insights():
             # result = output.json()
             rating = '4' 
             summary = 'It could be particularly useful for businesses, who can use the data to track trends and make informed decisions. Furthermore, it could be used to create more efficient ways to get news quickly and easily, streamlining the process for users. The AI news scraper could also open up new possibilities for research and analysis of news topics. Overall, the AI news scraper is an innovative and useful product idea.' 
+
             st.write('Your average rating is') # ratings average
             st.write(rating)
             st.write('Summary of the written feedbacks') # summary average

@@ -32,7 +32,7 @@ def rating():
     user_token = st.session_state["authentication_status"]
     headers = {'Authorization': f'Bearer {user_token}'}
     payload_idea = {'review_token':str(token)}
-    output = requests.post("http://localhost:8000//idea/recieve-feedback-from-email", params = payload_idea,headers=headers)
+    output = requests.post("http://backend:8000//idea/recieve-feedback-from-email", params = payload_idea,headers=headers)
     if output.status_code == 200:
         st.success('Review sent')
     else:
