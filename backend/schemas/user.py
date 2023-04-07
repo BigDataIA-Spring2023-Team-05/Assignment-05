@@ -30,4 +30,5 @@ class User(BaseModel):
 
 class TokenData(BaseModel):
     id: int
+    email: str
     username: Union[str, None] = None
