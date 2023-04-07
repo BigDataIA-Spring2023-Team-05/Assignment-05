@@ -72,7 +72,7 @@ def ideation_page():
     
 
     #button to go to the next page
-    button = st.button('Confirm')
+    # button = st.button('Confirm')
 
 
     #Taking the most favorite idea out of the lot and going ahead with the design

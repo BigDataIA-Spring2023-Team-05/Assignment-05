@@ -70,26 +70,62 @@ def feature_page():
         
         options = st.session_state['feature_list']
         selected_option = st.selectbox("Select an option",options)
+        feature = selected_option.split('.')[1]
+        print(feature)
 
-        st.write('User Story')
+        # st.write('User Story')
 
         # Show the selected option
-        st.write("You selected:", selected_option)
+        st.write("You selected:", feature)
+        # GET API call
+        token = st.session_state["authentication_status"]
+        headers = {'Authorization': f'Bearer {token}'}
+        sel_feature:str = str(feature)
+    
+        payload_idea = {'product_feature': sel_feature}
 
-        st.write('Like idea?')
-        st.button('Create your MVP')
+        params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
 
+        output = requests.get("http://localhost:8000/idea/get-to-do-list-for-product-feature", params = params, headers=headers)
+        if output.status_code == 200:
+                result_todo = output.json()
+                todo_list  = result_todo['features_list']
+                # print(user_segments_list)
+                todo = '\n'.join(todo_list)
+                # print(user_segments)
+                st.write("Your User Stories / to-do list  : ")
+                st.write(todo)
+        else: 
+            st.warning('Server Issue')
+        
+        st.subheader('Sure about you Idea?')
+        mvp_bt = st.button('Create your MVP')
+        if mvp_bt:
+            st.session_state['mvp_status'] = True
+            url = 'http://localhost:8000/idea/approve-mvp'
+            headers = {'Authorization': f'Bearer {token}'}
+            fav_idea:str = str(st.session_state['fav_idea'])
+            features = '\n'.join(st.session_state['feature_list'])
+            myobj = {'idea_title': fav_idea ,'features': features}
+            result = requests.post(url, headers= headers,json= myobj )
+            if result.status_code == 200:
+                 st.success('Saved your results')
+                 switch_page('Prototyping')
+            else:
+                 st.error('Could not save resuilts idea & feature-list ')
+            
 
-        st.button('Go to Home Page')
+        # st.button('Go to Home Page')
             # SessionState.selected_page = 'Home'
 # print(st.session_state["authentication_status"])
 # print(st.session_state["feature_status"])
 if st.session_state["authentication_status"] == False and st.session_state["feature_status"] == False:
-      st.subheader("Please Login before use")
-
+    st.subheader("Please Login before use")
+elif st.session_state["authentication_status"] != False and st.session_state["feature_status"] == False:
+    st.subheader("Use Ideation Page to come here")
 elif st.session_state["authentication_status"] != False and st.session_state["feature_status"] == True:
-      print('in loop')
-      feature_page()
+    #   print('in loop')
+    feature_page()
   
 
 # st.set_page_config(page_title="Streamlit_feature_page", page_icon=":smiley:", layout="wide",
