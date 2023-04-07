@@ -115,12 +115,29 @@ class OpenAIChat:
         else:
             return splitted_result[0]
 
+
+    def generate_html_code_for_product_idea(self, product_feature: str):
+        completion = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo", 
+                messages = [
+                    {'role': 'user', 'content': f'create an html code this \'{product_feature}\'?'}
+                ],
+                temperature = 0.70,
+            )
+
+
+        print(completion)
+
+        result = completion.choices[0].message.content
+        print(result)
+
 # %%
 open_ai_obj = OpenAIChat()
 # openaiobj.generate_user_segment_for_product_idea('sql query generator')
 
 
 # %%
+open_ai_obj.generate_html_code_for_product_idea('sql query generator')
 # print(openaiobj.generate_product_idea_for_user_segment('data engineers'))
 
 
