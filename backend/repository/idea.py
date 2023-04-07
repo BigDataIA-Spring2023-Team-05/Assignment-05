@@ -34,8 +34,11 @@ def get_all_ideas(user_id:int, db: Session):
     ideas = db.query(IdeasModel).filter(IdeasModel.user_id == user_id).all()
     return ideas
 
-def send_email(email: str, idea_id:int, db: Session):
+def send_email(email: str, idea_title:str, user_id:int, db: Session):
     try:
+        idea_val = db.query(IdeasModel).filter(and_(IdeasModel.idea_title == idea_title, IdeasModel.user_id == user_id)).first()
+        
+        idea_id = idea_val.id
         idea = db.query(EmailRatingModel).filter(and_(EmailRatingModel.email == email, EmailRatingModel.idea_id == idea_id)).first()
 
         if idea:
