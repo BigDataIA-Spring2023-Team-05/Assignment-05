@@ -33,21 +33,21 @@ services:
       dbsql:
         condition: service_healthy
 
-  # frontend:
-  #   build: ./frontend
-  #   ports:
-  #     - '8501:8501'
-  #   depends_on:
-  #     - backend
+  frontend:
+    build: ./frontend
+    ports:
+      - '8501:8501'
+    depends_on:
+      - backend
 
-  # nginx:
-  #   container_name: nginx
-  #   restart: always
-  #   build: ./nginx
-  #   ports:
-  #     - "80:80"
-  #   depends_on:
-  #     - frontend
+  nginx:
+    container_name: nginx
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
 
 volumes:
   assignemnt-05:
