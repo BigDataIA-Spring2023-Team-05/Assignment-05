@@ -103,50 +103,35 @@ def feature_page():
             else: 
                 st.warning('Server Issue')
              
-        # st.write('User Story')
-
-        # Show the selected option
-        # GET API call
-        # token = st.session_state["authentication_status"]
-        # headers = {'Authorization': f'Bearer {token}'}
-        # sel_feature:str = str(feature)
-    
-        # payload_idea = {'product_feature': sel_feature}
-
-        # params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
-
-        # output = requests.get("http://localhost:8000/idea/get-to-do-list-for-product-feature", params = params, headers=headers)
-        # if output.status_code == 200:
-        #         result_todo = output.json()
-        #         todo_list  = result_todo['features_list']
-        #         # print(user_segments_list)
-        #         todo = '\n'.join(todo_list)
-        #         # print(user_segments)
-        #         st.write("Your User Stories / to-do list  : ")
-        #         st.write(todo)
-        # else: 
-        #     st.warning('Server Issue')
         
-        st.subheader('Sure about you Idea?')
-        mvp_bt = st.button('Create your MVP')
-        if mvp_bt:
-            st.session_state['mvp_status'] = True
-            url = 'http://localhost:8000/idea/approve-mvp'
-            headers = {'Authorization': f'Bearer {token}'}
-            fav_idea:str = str(st.session_state['fav_idea'])
-            features = '\n'.join(st.session_state['feature_list'])
-            myobj = {'idea_title': fav_idea ,'features': features}
-            print('--------------- Feature after spliting 2222 -----------------')
-            print(fav_idea)
-            print('--------------- 222  ---------------------------------------')
-            print(features)
+        
+            st.subheader('Sure about you Idea?')
+            mvp_bt = st.button('Create your MVP')
+            if mvp_bt:
+                st.session_state['mvp_status'] = True
+                url = 'http://localhost:8000/idea/approve-mvp'
+                headers = {'Authorization': f'Bearer {token}'}
+                fav_idea:str = str(st.session_state['fav_idea'])
+                features = '\n'.join(st.session_state['feature_list'])
+                myobj = {'idea_title': fav_idea ,'features': features}
+                print('--------------- Feature after spliting 2222 -----------------')
+                print(fav_idea)
+                print('--------------- 222  ---------------------------------------')
+                print(features)
 
-            result = requests.post(url, headers= headers,json= myobj )
-            if result.status_code == 200:
-                 st.success('Saved your results')
-                 switch_page('Prototyping')
-            else:
-                 st.error('Could not save resuilts idea & feature-list ')
+                result = requests.post(url, headers= headers,json= myobj )
+                print('--------------- 222  ---------------------------------------')
+                
+                print(result)
+
+                print('--------------- 222  ---------------------------------------')
+                if result.status_code == 200:
+                    st.success('Saved your results')
+                    switch_page('Prototyping')
+                elif result.status_code == 409:
+                    st.warning('This product Idea already exists') 
+                else:
+                    st.error('Could not save resuilts idea & feature-list ')
             
 
         # st.button('Go to Home Page')
