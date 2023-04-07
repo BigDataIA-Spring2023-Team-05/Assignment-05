@@ -43,25 +43,29 @@ def feature_page():
         #      else: 
         #         st.warning('Server Issue')
         # else:
-        token = st.session_state["authentication_status"]
-        headers = {'Authorization': f'Bearer {token}'}
-        fav_idea:str = str(st.session_state['fav_idea'])
-    
-        payload_idea = {'product_idea': fav_idea}
-
-        params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
-
-        output = requests.get("http://localhost:8000/idea/get-features-list-for-product-ideas", params = params, headers=headers)
-        if output.status_code == 200:
-                result_feature = output.json()
-                st.session_state['feature_list']  = result_feature['features_list']
-                # print(user_segments_list)
-                features = '\n'.join(st.session_state['feature_list'])
+        features = '\n'.join(st.session_state['feature_list'])
                 # print(user_segments)
-                st.write("Your Product Features  : ")
-                st.write(features)
-        else: 
-            st.warning('Server Issue')
+        st.write("Your Product Features  : ")
+        st.write(features)
+        # token = st.session_state["authentication_status"]
+        # headers = {'Authorization': f'Bearer {token}'}
+        # fav_idea:str = str(st.session_state['fav_idea'])
+    
+        # payload_idea = {'product_idea': fav_idea}
+
+        # params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
+
+        # output = requests.get("http://localhost:8000/idea/get-features-list-for-product-ideas", params = params, headers=headers)
+        # if output.status_code == 200:
+        #         result_feature = output.json()
+        #         st.session_state['feature_list']  = result_feature['features_list']
+        #         # print(user_segments_list)
+        #         features = '\n'.join(st.session_state['feature_list'])
+        #         # print(user_segments)
+        #         st.write("Your Product Features  : ")
+        #         st.write(features)
+        # else: 
+        #     st.warning('Server Issue')
         st.write('Create your user story here')
 
 
@@ -70,33 +74,58 @@ def feature_page():
         
         options = st.session_state['feature_list']
         selected_option = st.selectbox("Select an option",options)
-        feature = selected_option.split('.')[1]
-        print(feature)
+        if selected_option:
+            user_story = selected_option.split('.')[1]
+            st.write("You selected user story:", user_story)
 
+            print('--------------- Feature after spliting-----------------')
+            print(user_story)
+            print('--------------- ---------------------------------------')
+            
+                
+            token = st.session_state["authentication_status"]
+            headers = {'Authorization': f'Bearer {token}'}
+            sel_feature:str = str(user_story)
+        
+            payload_idea = {'product_feature': sel_feature}
+
+            params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
+
+            output = requests.get("http://localhost:8000/idea/get-to-do-list-for-product-feature", params = params, headers=headers)
+            if output.status_code == 200:
+                    result_todo = output.json()
+                    todo_list  = result_todo['features_list']
+                    # print(user_segments_list)
+                    todo = '\n'.join(todo_list)
+                    # print(user_segments)
+                    st.write("Your User Stories / to-do list  : ")
+                    st.write(todo)
+            else: 
+                st.warning('Server Issue')
+             
         # st.write('User Story')
 
         # Show the selected option
-        st.write("You selected:", feature)
         # GET API call
-        token = st.session_state["authentication_status"]
-        headers = {'Authorization': f'Bearer {token}'}
-        sel_feature:str = str(feature)
+        # token = st.session_state["authentication_status"]
+        # headers = {'Authorization': f'Bearer {token}'}
+        # sel_feature:str = str(feature)
     
-        payload_idea = {'product_feature': sel_feature}
+        # payload_idea = {'product_feature': sel_feature}
 
-        params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
+        # params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
 
-        output = requests.get("http://localhost:8000/idea/get-to-do-list-for-product-feature", params = params, headers=headers)
-        if output.status_code == 200:
-                result_todo = output.json()
-                todo_list  = result_todo['features_list']
-                # print(user_segments_list)
-                todo = '\n'.join(todo_list)
-                # print(user_segments)
-                st.write("Your User Stories / to-do list  : ")
-                st.write(todo)
-        else: 
-            st.warning('Server Issue')
+        # output = requests.get("http://localhost:8000/idea/get-to-do-list-for-product-feature", params = params, headers=headers)
+        # if output.status_code == 200:
+        #         result_todo = output.json()
+        #         todo_list  = result_todo['features_list']
+        #         # print(user_segments_list)
+        #         todo = '\n'.join(todo_list)
+        #         # print(user_segments)
+        #         st.write("Your User Stories / to-do list  : ")
+        #         st.write(todo)
+        # else: 
+        #     st.warning('Server Issue')
         
         st.subheader('Sure about you Idea?')
         mvp_bt = st.button('Create your MVP')
@@ -107,6 +136,11 @@ def feature_page():
             fav_idea:str = str(st.session_state['fav_idea'])
             features = '\n'.join(st.session_state['feature_list'])
             myobj = {'idea_title': fav_idea ,'features': features}
+            print('--------------- Feature after spliting 2222 -----------------')
+            print(fav_idea)
+            print('--------------- 222  ---------------------------------------')
+            print(features)
+
             result = requests.post(url, headers= headers,json= myobj )
             if result.status_code == 200:
                  st.success('Saved your results')
@@ -122,6 +156,8 @@ def feature_page():
 if st.session_state["authentication_status"] == False and st.session_state["feature_status"] == False:
     st.subheader("Please Login before use")
 elif st.session_state["authentication_status"] != False and st.session_state["feature_status"] == False:
+    print(st.session_state["authentication_status"])
+    print(st.session_state["feature_status"])
     st.subheader("Use Ideation Page to come here")
 elif st.session_state["authentication_status"] != False and st.session_state["feature_status"] == True:
     #   print('in loop')

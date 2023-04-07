@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import os
 import requests
+import urllib
 from streamlit_extras.switch_page_button import switch_page
 if 'authentication_status' not in st.session_state:
     st.session_state['authentication_status'] = False
@@ -11,6 +12,10 @@ if 'fav_idea' not in st.session_state:
     st.session_state['fav_idea'] = ''
 if 'mvp_status' not in st.session_state:
     st.session_state['mvp_status'] = False
+if 'feature_list' not in st.session_state:
+    st.session_state['feature_list'] = []
+if 'idea_list' not in st.session_state:
+    st.session_state['idea_list'] = []
 
     
 # Define function to create page layout
@@ -81,8 +86,25 @@ def ideation_page():
     #Button to navigate to the next page
     feature_page = st.button('Go to Feature Page')
     if feature_page:
-        st.session_state['feature_status'] = True
-        switch_page('Features')
+        st.session_state["feature_status"] = True
+        token = st.session_state["authentication_status"]
+        headers = {'Authorization': f'Bearer {token}'}
+        fav_idea:str = str(st.session_state['fav_idea'])
+    
+        payload_idea = {'product_idea': fav_idea}
+
+        params = urllib.parse.urlencode(payload_idea, quote_via=urllib.parse.quote)
+
+        output = requests.get("http://localhost:8000/idea/get-features-list-for-product-ideas", params = params, headers=headers)
+        if output.status_code == 200:
+               
+                result_feature = output.json()
+                st.session_state['feature_list']  = result_feature['features_list']
+                print(st.session_state['feature_list'])
+                switch_page('Features')
+        else: 
+            st.warning('Server Issue')
+        
             
 if st.session_state["authentication_status"] == False:
       st.subheader("Please Login before use")
