@@ -17,9 +17,10 @@ if 'idea_list' not in st.session_state:
     st.session_state['idea_list'] = []
 if 'feature_list' not in st.session_state:
     st.session_state['feature_list'] = []
-dict = st.experimental_get_query_params()
-token = dict['token']
-print(token)
+if  st.session_state['authentication_status'] == False:
+    dict = st.experimental_get_query_params()
+    token = dict['token']
+    print(token)
 def rating():
 
     #creating a ratings page where entering th
@@ -37,7 +38,7 @@ def rating():
     else:
         st.error('Review could not be sent currently')
     
-if st.session_state["authentication_status"] == False:
-    st.subheader("Please Login before use")
+if st.session_state["authentication_status"]:
+    st.subheader("You cannot use this page , use the link emailed")
 else:
     rating()
