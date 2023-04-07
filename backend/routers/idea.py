@@ -1,8 +1,8 @@
 from fastapi import APIRouter, status, Depends
-from schemas.index import TokenData
+from schemas.index import TokenData, MVPIdea
 from sqlalchemy.orm import Session
 from config import db
-from repository import user
+from repository import idea
 from fastapi.security import OAuth2PasswordRequestForm
 from middlewares.oauth2 import get_current_user
 from utils.open_ai_chat import open_ai_obj
@@ -55,5 +55,24 @@ def get_feature_list_for_product_idea(product_idea:str, get_current_user: TokenD
         'success': True,
         'features_list': my_list
     }
+
+
+
+@router.get('/get-to-do-list-for-product-feature')
+def get_to_do_list_for_product_feature(product_feature:str, get_current_user: TokenData = Depends(get_current_user)):
+    result = open_ai_obj.generate_to_do_list_for_product_feature(product_feature = product_feature)
+    
+    if result != None:
+        my_list = result.strip().split("\n")
+
+    return {
+        'success': True,
+        'features_list': my_list
+    }
+
+
+@router.post('/approve-mvp')
+def approve_mvp_idea(request: MVPIdea, get_current_user: TokenData = Depends(get_current_user), db: Session = Depends(get_db)):
+    return idea.create(user_id= get_current_user.id, title = request.idea_title, features = request.features, db=db)
 
 
