@@ -129,7 +129,7 @@ class OpenAIChat:
         print(completion)
 
         result = completion.choices[0].message.content
-        print(result)
+        return result
 
 # %%
 open_ai_obj = OpenAIChat()
