@@ -49,7 +49,7 @@ def generate_html_code_for_product_idea(product_feature: str):
         completion = openai.ChatCompletion.create(
                 model="gpt-3.5-turbo", 
                 messages = [
-                    {'role': 'user', 'content': f'create an html code this \'{product_feature}\'?'}
+                    {'role': 'user', 'content': f'create prototype html code this product idea \'{product_feature}\'?'}
                 ],
                 temperature = 0.70,
             )
@@ -72,36 +72,37 @@ def prototype():
     user_idea = st.selectbox("Select an option",options)
     gen_bt = st.button("Generate",key = 'generate')
     if gen_bt:
-        st.write('html code generation')
+        # st.write('html code generation')
         html_code = generate_html_code_for_product_idea(user_idea)
+        st.write('html code generated')
         print(html_code)
-        with st.form("my_form"): 
-            email = st.text_input("Email Input")
-            # subject for email
-            # sub = st.text_input("Subject")
-            mission = st.text_input("Mission Statement")
-            # confirm_password = st.text_input("Confirm Password", type="password")
-            
-            # Checkbox for agreeing to terms
-            # agree_to_terms = st.checkbox("I agree to the terms and conditions")
-            submitted = st.form_submit_button("Submit")
-            if submitted:
-                url = 'http://localhost:8000/idea/send-email-for-feedback'
-                headers = {'Authorization': f'Bearer {token}'}
-                myobj = {'email_id' : email, 'mission_statement' : mission , 'idea_title' : user_idea,'html_code':html_code }
-                result = requests.post(url, json = myobj, headers = headers)
-                if result.status_code == 200:
-                    st.success('Email sent !!')
-                    switch_page('Insights')
-                else:
-                    st.warning('Email could not be sent , please check details')
+    with st.form("my_form"): 
+        email = st.text_input("Email Input")
+        # subject for email
+        # sub = st.text_input("Subject")
+        mission = st.text_input("Mission Statement")
+        # confirm_password = st.text_input("Confirm Password", type="password")
+        
+        # Checkbox for agreeing to terms
+        # agree_to_terms = st.checkbox("I agree to the terms and conditions")
+        submitted = st.form_submit_button("Submit")
+        if submitted:
+            url = 'http://localhost:8000/idea/send-email-for-feedback'
+            headers = {'Authorization': f'Bearer {token}'}
+            myobj = {'email_id' : email, 'mission_statement' : mission , 'idea_title' : user_idea,'html_code':html_code }
+            result = requests.post(url, json = myobj, headers = headers)
+            if result.status_code == 200:
+                st.success('Email sent !!')
+                switch_page('Insights')
+            else:
+                st.warning('Email could not be sent , please check details')
 # Open a new .html file in write mode
-        with open("my_html_file.html", "w") as f:
-    # Write the HTML code to the file
-            f.write(html_code)
-            # Close the file
-        f.close()
-        st.session_state['html_code'] = html_code
+    #     with open("my_html_file.html", "w") as f:
+    # # Write the HTML code to the file
+    #         f.write(html_code)
+    #         # Close the file
+    #     f.close()
+    #     st.session_state['html_code'] = html_code
     
     
  
@@ -110,7 +111,7 @@ def prototype():
  
  
 # cutomer_insight = st.text_input()
-if st.session_state["authentication_status"] == False and st.session_state["feature_status"] == False and st.session_state['mvp_status'] == False:
+if st.session_state["authentication_status"] == False:
     st.subheader("Please Login before use")
  
 else:
