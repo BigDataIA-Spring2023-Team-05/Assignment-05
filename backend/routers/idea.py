@@ -106,3 +106,8 @@ def send_email_feedback(email_id:str, idea_title: str, get_current_user: TokenDa
 def receive_feedback_from_email(request: EmailRate, review_token: Annotated[Union[str, None], Header()] = None, db: Session = Depends(get_db)):    
     return idea.add_feedback(token= review_token, rating= request.rating, feedback= request.feedback, db= db)
 
+
+@router.get('/get-insights-of-idea')
+def receive_summarized_feedback(idea_title: str, get_current_user: TokenData = Depends(get_current_user), db: Session = Depends(get_db)):    
+    return idea.summarized_feedback(user_id=get_current_user.id, idea_title= idea_title, db= db)
+

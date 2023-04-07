@@ -75,7 +75,6 @@ def add_feedback(token, rating: int, feedback: str, db: Session):
                 content= FailedResponse(message= "Please pass rating between 1-5").to_json()
             )
     
-
     try:
         tokenData = verify_token_for_email(token)
         print(tokenData)
@@ -83,7 +82,7 @@ def add_feedback(token, rating: int, feedback: str, db: Session):
         if tokenData is None:
             return JSONResponse(
             status_code= status.HTTP_401_UNAUTHORIZED,
-            content= FailedResponse(message= "Unauthorized user").to_json()
+            content = FailedResponse(message= "Unauthorized user").to_json()
         )
 
         emailRate = db.query(EmailRatingModel).filter(and_(EmailRatingModel.email == tokenData["email"], EmailRatingModel.idea_id == tokenData["idea_id"])).first()
@@ -91,7 +90,7 @@ def add_feedback(token, rating: int, feedback: str, db: Session):
         if not emailRate:
             return JSONResponse(
                 status_code= status.HTTP_404_NOT_FOUND,
-                content= FailedResponse(message= f"User rating not exists").to_json()
+                content = FailedResponse(message= f"User rating not exists").to_json()
             )
         
         if emailRate.rating != None:
@@ -120,3 +119,17 @@ def add_feedback(token, rating: int, feedback: str, db: Session):
                 status_code= status.HTTP_401_UNAUTHORIZED,
                 content= FailedResponse(message= f"Unauthorized user with {e.with_traceback}").to_json()
             )
+    
+def summarized_feedback(user_id, idea_title: int, db: Session):
+
+    idea_val = db.query(IdeasModel).filter(and_(IdeasModel.idea_title == idea_title, IdeasModel.user_id == user_id)).first()
+    idea_id = idea_val.id
+    idea_rating = db.query(EmailRatingModel).filter(EmailRatingModel.idea_id == idea_id).all()
+    print(idea_rating)
+    print("sum(idea_rating) ", sum(idea_rating))
+    return JSONResponse(
+        status_code= status.HTTP_200_OK,
+        content={
+            'response': idea_rating
+        }
+    )
