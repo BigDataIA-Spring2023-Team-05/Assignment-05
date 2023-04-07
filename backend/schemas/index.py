@@ -1,3 +1,3 @@
 from .user import LoginResponse, User, TokenData
 from .responses import SuccessResponse, FailedResponse
-from .idea import MVPIdea
+from .idea import MVPIdea, EmailRate
