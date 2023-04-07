@@ -9,6 +9,15 @@ from sqlalchemy import and_
 
 def create(user_id:int, title: str, features:str, db: Session):
     try:
+        idea = db.query(IdeasModel).filter(and_(IdeasModel.idea_title == title, IdeasModel.user_id == user_id)).first()
+
+        if idea:
+            return JSONResponse(
+                status_code= status.HTTP_409_CONFLICT,
+                content= FailedResponse(message= f"Idea with this name already exists in your list!").to_json()
+            )
+
+
         new_idea = IdeasModel(user_id= user_id, idea_title = title, features= features)
         db.add(new_idea)
         db.commit()
