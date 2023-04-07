@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import uvicorn
-from routers import user
+from routers import user, idea
 from config.db import Base, engine, SessionLocal
 
 app =  FastAPI()
@@ -13,6 +13,8 @@ def init_db():
 @app.on_event("startup")
 async def startup():
     app.include_router(user.router)
+    app.include_router(idea.router)
+
     init_db()
     
 
