@@ -91,6 +91,29 @@ class OpenAIChat:
             return splitted_result[1]
         else:
             return splitted_result[0]
+        
+
+    def generate_to_do_list_for_product_feature(self, product_feature: str) -> str:
+        completion = openai.ChatCompletion.create(
+                model="gpt-3.5-turbo", 
+                messages = [
+                    {'role': 'user', 'content': f'create upto 10 numbered to-do list for product feature \'{product_feature}\'?'}
+                ],
+                temperature = 0.70,
+            )
+
+
+
+        result = completion.choices[0].message.content
+        print(result)
+
+        splitted_result = result.split('\n\n')
+
+        print(splitted_result)
+        if len(splitted_result) > 1:
+            return splitted_result[1]
+        else:
+            return splitted_result[0]
 
 # %%
 open_ai_obj = OpenAIChat()

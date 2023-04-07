@@ -106,4 +106,3 @@ def send_email_feedback(email_id:str, idea_id: int, get_current_user: TokenData 
 def receive_feedback_from_email(request: EmailRate, review_token: Annotated[Union[str, None], Header()] = None, db: Session = Depends(get_db)):    
     return idea.add_feedback(token= review_token, rating= request.rating, feedback= request.feedback, db= db)
 
-

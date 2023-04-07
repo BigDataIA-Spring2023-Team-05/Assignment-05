@@ -28,6 +28,7 @@ def create(user_id:int, title: str, features:str, db: Session):
         return JSONResponse(
                 status_code= status.HTTP_500_INTERNAL_SERVER_ERROR,
                 content= FailedResponse(message= f"Internal server exception {str(e.with_traceback)}").to_json()
+
             )
     
 def get_all_ideas(user_id:int, db: Session):
