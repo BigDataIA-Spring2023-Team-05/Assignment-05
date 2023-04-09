@@ -22,8 +22,11 @@ PROMA - A product management automation tool
 ## To execute this project, you will need:
 
 1.Amazon Web Services account
+
 2.Docker Desktop Application
+
 3.AWS access and secret keys
+
 4.OpenAI (Chat GPT) API key
 
 
