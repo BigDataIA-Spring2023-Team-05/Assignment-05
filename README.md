@@ -9,14 +9,23 @@ PROMA - A product management automation tool
 2. Create the .env file inside the main folder 
 3. Sample .env file values:
     AWS_ACCESS_KEY=
+    
     AWS_ACCESS_KEY_SECRET=
+    
     SECRET_KEY=
+    
     ALGORITHM=
+    
     ACCESS_TOKEN_EXPIRE_MINUTES=30
+    
     DB_PASSWORD=123456789
+    
     DB_HOST=dbsql
+    
     DB_NAME=assignment-05
+    
     DB_USER=assignment_05
+    
     OPEN_AI_API_KEY=
 
 ## To execute this project, you will need:
