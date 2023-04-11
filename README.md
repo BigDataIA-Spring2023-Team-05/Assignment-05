@@ -1,11 +1,15 @@
 # Assignment-05
 PROMA - A product management automation tool
 
+## Link to Live Applications 
+- Streamlit Application - http://ec2-44-204-193-73.compute-1.amazonaws.com/
+- Codelabs - https://codelabs-preview.appspot.com/?file_id=1gqqVxyYJelDiiRv_EhXNoVH9Kq1HNesrbfurvKJCR0E#0
+
 ## Architecture Diagram
-<img src="https://github.com/BigDataIA-Spring2023-Team-05/Assignment-05/blob/main/RBS.png" />
+<img src="https://github.com/BigDataIA-Spring2023-Team-05/Assignment-05/blob/main/arch_diagram.jpeg" />
  
 ## Installation
-1. Clone the repository (https://github.com/BigDataIA-Spring2023-Team-05/Assignment-04.git)
+1. Clone the repository (https://github.com/BigDataIA-Spring2023-Team-05/Assignment-05.git)
 2. Create the .env file inside the main folder 
 3. Sample .env file values:
     AWS_ACCESS_KEY=
@@ -39,12 +43,14 @@ PROMA - A product management automation tool
 4.OpenAI (Chat GPT) API key
 
 
-## Team Information and Contribution
-Name	Contribution
-Rishabh Jain	31.6%
-Venkata Sai Charan Amiti 31.6%
-Varsha Hindupur	5%
-Krishica Gopalakrishnan	31.6%
+## Team Information and Contribution 
+
+Name | Contribution 
+--- | --- |
+Rishabh Jain | 31.6% 
+Venkata Sai Charan Amiti | 31.6% 
+Krishica Gopalakrishnan | 31.6% 
+Varsha Hindupur | 5% 
 
 ## Attestation:
 WE ATTEST THAT WE HAVEN’T USED ANY OTHER STUDENTS’ WORK IN OUR ASSIGNMENT AND ABIDE BY THE POLICIES LISTED IN THE STUDENT HANDBOOK.
