@@ -2,7 +2,7 @@
 PROMA - A product management automation tool
 
 ## Link to Live Applications 
-- Streamlit Application - http://ec2-44-204-193-73.compute-1.amazonaws.com/
+- Streamlit Application - http://ec2-52-70-55-80.compute-1.amazonaws.com/
 - Codelabs - https://codelabs-preview.appspot.com/?file_id=1gqqVxyYJelDiiRv_EhXNoVH9Kq1HNesrbfurvKJCR0E#0
 
 ## Architecture Diagram
